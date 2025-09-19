@@ -1,0 +1,22 @@
+version: '3.9'
+
+services:
+  backend:
+    image: weather-backend
+    build:
+      context: ./weather-backend
+    ports:
+      - "5001:5000"
+    env_file:
+      - ./weather-backend/.env
+    restart: unless-stopped
+
+  frontend:
+    image: weather-frontend
+    build:
+      context: ./weather-frontend
+    ports:
+      - "3001:3000"
+    depends_on:
+      - backend
+    restart: unless-stopped
