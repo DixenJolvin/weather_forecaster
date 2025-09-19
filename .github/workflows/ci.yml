@@ -1,0 +1,33 @@
+name: CI Pipeline (Local Docker Build)
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '**/*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build backend image
+        uses: docker/build-push-action@v3
+        with:
+          context: ./weather-backend
+          push: false
+          tags: weather-backend:latest
+
+      - name: Build frontend image
+        uses: docker/build-push-action@v3
+        with:
+          context: ./weather-frontend
+          push: false
+          tags: weather-frontend:latest
